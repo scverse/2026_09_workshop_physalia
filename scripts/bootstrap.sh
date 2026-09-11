@@ -8,7 +8,7 @@
 set -euo pipefail
 
 WORKSHOP_ROOT=${WORKSHOP_ROOT:-/opt/workshop}
-REPO_URL=${REPO_URL:-https://github.com/scverse/202609_workshop_physalia.git}
+REPO_URL=${REPO_URL:-https://github.com/scverse/2026_09_workshop_physalia.git}
 ENV_DIR="$WORKSHOP_ROOT/physalia"
 DATA_DIR="$WORKSHOP_ROOT/data"
 

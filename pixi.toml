@@ -1,7 +1,7 @@
 [workspace]
 authors = ["Tim Treis <tim.treis@helmholtz-munich.de>", "Robert Gutgesell <robert.gutgesell@helmholtz-munich.de>"]
 channels = ["conda-forge"]
-name = "202609_workshop_physalia"
+name = "2026_09_workshop_physalia"
 # linux-64  = the teaching server
 # osx-arm64 = instructors authoring notebooks
 # win-64    = escape hatch, a participant whose network blocks outbound SSH can

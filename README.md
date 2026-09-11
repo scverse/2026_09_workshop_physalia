@@ -13,7 +13,7 @@ no conda, no pixi on your own machine.
 1. **Connect.** VS Code → `Remote-SSH: Connect to Host` → the host Physalia sent you.
 2. **Clone this repo** into your home directory:
    ```bash
-   git clone https://github.com/scverse/202609_workshop_physalia.git
+   git clone https://github.com/scverse/2026_09_workshop_physalia.git
    cd 202609_workshop_physalia
    ```
 3. **Open `notebooks/00_setup_check.ipynb`.**
