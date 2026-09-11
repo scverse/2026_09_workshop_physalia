@@ -29,7 +29,8 @@ this **before day 1**, not on the morning of — that way we can fix it in time.
 | | |
 |---|---|
 | Shared data | `/opt/workshop/data` — **read-only**, same for everyone |
-| Your work | inside your own clone; `outputs/` is git-ignored |
+| Your work | inside `~/2026_09_workshop_physalia`; `outputs/` is git-ignored |
+| Privacy | your home directory is **private to you** — other participants cannot read it |
 
 Import `paths.py` rather than hardcoding either:
 
@@ -59,6 +60,7 @@ pixi run check
 ```bash
 sudo -v && bash scripts/bootstrap.sh     # full server setup, ~20 min, re-runnable
 bash scripts/stage_data.sh               # data only
+bash scripts/harden_accounts.sh          # private homes + pre-cloned repo, re-runnable
 pixi run check                           # verify
 ```
 
