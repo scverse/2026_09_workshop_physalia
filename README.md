@@ -61,11 +61,17 @@ pixi run check
 sudo -v && bash scripts/bootstrap.sh     # full server setup, ~20 min, re-runnable
 bash scripts/stage_data.sh               # data only
 bash scripts/harden_accounts.sh          # private homes + pre-cloned repo, re-runnable
+bash scripts/seed_vscode_extensions.sh   # Python + Jupyter into every VS Code server
 bash scripts/reset_user.sh user1         # reset one account to its day-1 state
 pixi run check                           # verify
 ```
 
-`reset_user.sh` wipes a participant's home except `.ssh` and restores it to
+`seed_vscode_extensions.sh` pre-installs the Python and Jupyter extensions into
+every participant's `~/.vscode-server`. Remote-SSH runs extensions **on the
+server**, so without this every participant is prompted to install ~300 MB the
+first time they open a notebook — 25 times over, at the start of day 1.
+
+`reset_user.sh` wipes a participant's home except `.ssh` and `.vscode-server` and restores it to
 exactly what they see on day 1 — use it to test the real participant experience
 rather than guessing at it. It takes `--dry-run` and `--all`.
 

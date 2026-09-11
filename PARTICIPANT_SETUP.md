@@ -62,6 +62,11 @@ Host physalia
 - A new window opens. Wait until the bottom-left corner shows `SSH: physalia`
   (the first connection takes a minute while VS Code sets itself up)
 
+> **About extensions:** the Python and Jupyter extensions are already installed
+> **on the server** for you. If VS Code still asks you to install or enable them,
+> click **Install** and let it finish — it only takes a moment, and everything
+> below works the same either way.
+
 ## 6. Open the workshop and check your setup
 
 - **File → Open Folder** → `2026_09_workshop_physalia` → **Open**
@@ -96,8 +101,10 @@ saved the key.
 (port 22). Try a different network, such as a phone hotspot. If it only works on
 one network, tell us now rather than on Monday.
 
-**The kernel picker has no "Physalia spatial omics"** — you are probably not
-connected to the server; check for `SSH: physalia` in the bottom-left corner.
+**The kernel picker has no "Physalia spatial omics"** — two possible causes.
+Check the bottom-left corner really says `SSH: physalia`; if it does, VS Code may
+still be setting up the Python and Jupyter extensions. Run
+`Developer: Reload Window` from the command palette and look again.
 
 **The notebook runs but imports fail** — the wrong kernel is selected. The setup
 check tells you which interpreter it found.

@@ -6,7 +6,7 @@
 #   bash scripts/reset_user.sh user1             # do it
 #   bash scripts/reset_user.sh --all             # every participant account
 #
-# KEEPS  .ssh  - their login lives there, removing it locks them out.
+# KEEPS  .ssh (login) and .vscode-server (server + seeded extensions).
 # WIPES  everything else in the home, including files they created.
 # LEAVES the home as: .ssh + /etc/skel dotfiles + a fresh clone of the workshop.
 #
@@ -16,7 +16,11 @@ set -uo pipefail
 
 REPO_URL=${REPO_URL:-https://github.com/scverse/2026_09_workshop_physalia.git}
 REPO_NAME=2026_09_workshop_physalia
-KEEP=(.ssh)
+# .ssh          - their login lives there
+# .vscode-server - the VS Code server plus seeded extensions, ~1.4 GB. Deleting
+#                  it forces a full re-download on next connect, which is exactly
+#                  the day-1 stampede we are trying to avoid.
+KEEP=(.ssh .vscode-server)
 N=${N:-30}
 
 DRY=0; TARGETS=()
