@@ -17,7 +17,10 @@ for i in $(seq 1 "$N"); do
   u=user$i; h=/home/$u
   [ -d "$h" ] || continue
   sudo chmod 700 "$h"
-  if [ -d "$h/$REPO_NAME" ]; then
+  # sudo test, not plain test: homes are 700, so even ubuntu cannot stat inside
+  # them. Without sudo this check silently reports "missing" and the clone below
+  # fails with "destination path already exists".
+  if sudo test -d "$h/$REPO_NAME"; then
     sudo -u "$u" git -C "$h/$REPO_NAME" pull -q --ff-only 2>/dev/null \
       && echo "  $u: updated" || echo "  $u: pull skipped (local changes)"
   else
