@@ -61,8 +61,13 @@ pixi run check
 sudo -v && bash scripts/bootstrap.sh     # full server setup, ~20 min, re-runnable
 bash scripts/stage_data.sh               # data only
 bash scripts/harden_accounts.sh          # private homes + pre-cloned repo, re-runnable
+bash scripts/reset_user.sh user1         # reset one account to its day-1 state
 pixi run check                           # verify
 ```
+
+`reset_user.sh` wipes a participant's home except `.ssh` and restores it to
+exactly what they see on day 1 — use it to test the real participant experience
+rather than guessing at it. It takes `--dry-run` and `--all`.
 
 `bootstrap.sh` installs pixi, builds the environment from the committed lock,
 installs the kernelspec **system-wide** (`--prefix=/usr/local`, so it is visible
