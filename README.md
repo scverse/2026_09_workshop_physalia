@@ -72,9 +72,13 @@ participant accounts being recreated.
 
 - `scvi-tools`, `squidpy` and `spatialdata-io` come from PyPI, not conda-forge:
   each feedstock lags PyPI by one patch and this course teaches the current stack.
-- `cellpose` is pinned `<4`. Unpinned, the solver picks 4.x on Linux and 3.0.9 on
-  macOS — a notebook authored on a Mac would then break on the server. 4.x is
-  Cellpose-SAM, which has no `diameter` argument.
+- `cellpose` is pinned `<4`. Unpinned the solver picks 4.x on Linux and 3.0.9 on
+  macOS, so a Mac-authored notebook breaks on the server. Worse, 4.x (Cellpose-SAM)
+  removed the `models.Cellpose` class and dropped `cyto3`/`nuclei` from
+  `MODEL_NAMES` — passing `cyto3` to v4 [silently falls back to
+  `cpsam_v2`](https://github.com/MouseLand/cellpose/issues/1176) rather than
+  erroring. It is also ~3× slower on CPU at fp32 and ~76× slower at its shipped
+  `use_bfloat16=True` default, since bf16 is emulated on CPU.
 - `napari` lives in the `local` feature only (`pixi install -e local`); it cannot
   render over Remote-SSH.
 

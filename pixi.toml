@@ -90,10 +90,18 @@ scvi-tools = ">=1.5.1"
 # absent: both need their own binaries and neither should run live on a shared
 # box - they are pre-run and their output ships in the staged data.
 sopa = { version = "*", extras = ["cellpose"] }
-# Pinned, and the pin matters. Unconstrained the solver takes cellpose 4.x on
-# linux-64 but 3.0.9 on osx-arm64, so a notebook authored on a Mac breaks on the
-# server. 4.x is Cellpose-SAM: no `diameter` argument and different model
-# classes, which would also delete the S2.2 diameter exercise.
+# Pinned, and the pin matters for three separate reasons.
+# 1. Cross-platform drift: unconstrained, the solver takes cellpose 4.x on
+#    linux-64 but 3.0.9 on osx-arm64, so a notebook authored on a Mac breaks on
+#    the server.
+# 2. Silent wrong model: v4 dropped the `models.Cellpose` class and removed
+#    cyto3/nuclei from MODEL_NAMES. Passing "cyto3" to v4 does not error - it
+#    falls back to cpsam_v2 with only a log line.
+#    https://github.com/MouseLand/cellpose/issues/1176
+# 3. CPU speed: v4 is ~3x slower than v3 on CPU at fp32, and ~76x slower at its
+#    shipped default (use_bfloat16=True; bf16 is emulated on CPU). v3 cyto3 is
+#    6.6M params against SAM's 305M, which is what makes ~25 concurrent
+#    segmentations survivable on one shared box.
 cellpose = "<4"
 
 # ------------------------------- S4.1 spatially aware clustering / niches
