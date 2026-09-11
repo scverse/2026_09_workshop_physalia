@@ -30,6 +30,10 @@ EXPECTED = {
     "scvi": "1.5", "sopa": "2.2", "cellcharter": "0.3", "liana": "1.10",
 }
 
+# import name -> distribution name, where they differ
+DIST = {"scvi": "scvi-tools", "spatialdata_io": "spatialdata-io",
+        "spatialdata_plot": "spatialdata-plot"}
+
 results: list[tuple[str, bool, str]] = []
 
 
@@ -64,13 +68,17 @@ def _kernel():
 @check("libraries")
 def _libs():
     import importlib
+    import importlib.metadata
     bad, seen = [], []
     for mod, want in EXPECTED.items():
         try:
-            got = importlib.import_module(mod).__version__
+            importlib.import_module(mod)
         except Exception as exc:  # noqa: BLE001
             bad.append(f"{mod}: not importable ({exc})")
             continue
+        # scanpy/anndata deprecated the __version__ attribute; metadata is the
+        # supported route and works for every package here.
+        got = importlib.metadata.version(DIST.get(mod, mod))
         seen.append(f"{mod}=={got}")
         if not got.startswith(want):
             bad.append(f"{mod}: expected {want}.x, got {got}")
@@ -151,7 +159,10 @@ def _graph():
     rng = np.random.default_rng(0)
     ad = sc.AnnData(rng.poisson(1.0, (60, 12)).astype("float32"))
     ad.obsm["spatial"] = rng.random((60, 2))
-    sq.gr.spatial_neighbors(ad, coord_type="generic", delaunay=True)
+    # squidpy 1.8.3 deprecated sq.gr.spatial_neighbors in favour of the
+    # explicit builders; it is removed in 1.9. Use the new call everywhere,
+    # including in the teaching notebooks.
+    sq.gr.spatial_neighbors_delaunay(ad)
     n = int(ad.obsp["spatial_connectivities"].nnz)
     assert n > 0
     return f"squidpy built a Delaunay graph ({n} edges)"
