@@ -1,0 +1,9 @@
+{
+  "python.defaultInterpreterPath": "/opt/workshop/physalia/.pixi/envs/default/bin/python",
+  "python.terminal.activateEnvironment": false,
+  "jupyter.kernels.filter": [
+    { "path": "/usr/bin/python3", "type": "pythonEnvironment" },
+    { "path": "/opt/miniconda3/bin/python", "type": "pythonEnvironment" }
+  ],
+  "notebook.output.textLineLimit": 60
+}

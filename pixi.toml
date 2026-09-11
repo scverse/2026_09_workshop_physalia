@@ -1,0 +1,119 @@
+[workspace]
+authors = ["Tim Treis <tim.treis@helmholtz-munich.de>", "Robert Gutgesell <robert.gutgesell@helmholtz-munich.de>"]
+channels = ["conda-forge"]
+name = "202609_workshop_physalia"
+# linux-64  = the teaching server
+# osx-arm64 = instructors authoring notebooks
+# win-64    = escape hatch, a participant whose network blocks outbound SSH can
+#             run the whole course locally from this same lockfile
+platforms = ["linux-64", "osx-arm64", "win-64"]
+version = "0.1.0"
+
+[tasks]
+# What participants run. Same logic as notebooks/00_setup_check.ipynb.
+check = "python scripts/healthcheck.py"
+# Instructor-only, needs sudo. Installs the kernelspec system-wide so EVERY
+# account sees it - including accounts that do not exist yet. Nothing is written
+# into any home directory.
+kernel = "python -m ipykernel install --prefix=/usr/local --name physalia --display-name 'Physalia spatial omics'"
+# Fallback if VS Code will not cooperate: browser Jupyter over an SSH tunnel.
+lab = "jupyter lab --no-browser --ip=127.0.0.1 --port=8888"
+
+# ---------------------------------------------------------------- core scverse
+[dependencies]
+python = "3.12.*"
+# notebook runtime. ipywidgets is not optional - squidpy, spatialdata-plot and
+# scvi-tools all render progress through it.
+ipykernel = "*"
+ipywidgets = "*"
+jupyterlab = "*"
+session-info2 = "*"
+
+scanpy = ">=1.12"
+anndata = ">=0.13"
+numpy = "*"
+scipy = "*"
+matplotlib = "*"
+seaborn = "*"
+scikit-learn = "*"
+leidenalg = "*"
+igraph = "*"
+scikit-misc = "*"          # scanpy flavor="seurat_v3"
+# liana 1.10 and much of the spatial ecosystem still cap pandas below 3.
+pandas = "<3"
+
+# ------------------------------------------- S1/S2/S3: the spatial data model
+spatialdata = ">=0.8"
+spatialdata-plot = ">=0.4.2"
+geopandas = "*"
+shapely = "*"
+zarr = ">=3"
+dask = "*"
+xarray = "*"
+pyarrow = "*"              # Xenium transcripts are parquet
+pooch = "*"                # dataset fetching
+datashader = "*"           # spatialdata-plot needs it to render millions of points
+tqdm = "*"
+
+# ------------------------------------------------- S8.1: morphology features
+# graycomatrix/graycoprops for Haralick texture, regionprops for shape.
+scikit-image = "*"
+
+# Declared as conda rather than left to pip: pixi maps conda names onto their
+# PyPI equivalents when solving [pypi-dependencies], so this single torch
+# satisfies both cellpose and scvi-tools. Two torches in one env is the classic
+# way this stack breaks.
+[target.linux-64.dependencies]
+# Every AI-side step runs from a pre-trained checkpoint, so CPU is correct:
+# deterministic, ~2GB instead of ~6GB, no driver coupling. If the final teaching
+# instance has a GPU, swap to pytorch-gpu and re-lock.
+pytorch-cpu = "*"
+[target.osx-arm64.dependencies]
+pytorch = "*"
+[target.win-64.dependencies]
+pytorch-cpu = "*"
+
+[pypi-dependencies]
+# These three are on PyPI rather than conda-forge for one reason: the
+# conda-forge feedstocks each lag PyPI by exactly one patch release
+# (spatialdata-io 0.7.0 vs 0.7.1, squidpy 1.8.2 vs 1.8.3,
+# scvi-tools 1.5.0.post1 vs 1.5.1) and this course teaches the current stack.
+# All three are pure Python, so mixing them over the conda base is safe.
+# Re-check at the next course: if conda-forge has caught up, move them back.
+spatialdata-io = ">=0.7.1"
+squidpy = ">=1.8.3"
+# Carries the current resolVI (scvi.external.RESOLVI) and GIMVI.
+scvi-tools = ">=1.5.1"
+
+# ------------------------------------------------------- S2.2 segmentation
+# The cellpose extra is what the hands-on uses. baysor/proseg are deliberately
+# absent: both need their own binaries and neither should run live on a shared
+# box - they are pre-run and their output ships in the staged data.
+sopa = { version = "*", extras = ["cellpose"] }
+# Pinned, and the pin matters. Unconstrained the solver takes cellpose 4.x on
+# linux-64 but 3.0.9 on osx-arm64, so a notebook authored on a Mac breaks on the
+# server. 4.x is Cellpose-SAM: no `diameter` argument and different model
+# classes, which would also delete the S2.2 diameter exercise.
+cellpose = "<4"
+
+# ------------------------------- S4.1 spatially aware clustering / niches
+cellcharter = "*"
+
+# ------------ S5 spatial CCC: li.mt.bivariate and li.mt.MistyData need >=1.10
+liana = ">=1.10"
+
+# ------------------ S6.2 alignment-based imputation, the contrast to gimVI
+tangram-sc = "*"
+
+# Instructor-only. napari is a desktop GUI and cannot render over VS Code
+# Remote-SSH, so it stays out of what participants get.
+#   pixi install -e local
+[feature.napari.dependencies]
+napari = "*"
+pyqt = "*"
+[feature.napari.pypi-dependencies]
+napari-spatialdata = "*"
+
+[environments]
+default = { solve-group = "main" }
+local = { features = ["napari"], solve-group = "main" }

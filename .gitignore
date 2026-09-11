@@ -1,0 +1,5 @@
+.pixi/
+outputs/
+**/.ipynb_checkpoints/
+__pycache__/
+*.zarr/
