@@ -1,6 +1,6 @@
 # Spatial Omics Data Analysis: From Raw Data to AI Insights
 
-Physalia course, **14–16 September 2026**, 14:00–18:00 Berlin time, online.
+Physalia course, **15–17 September 2026**, 14:00–18:00 Berlin time, online.
 Instructors: Tim Treis, Robert Gutgesell (Helmholtz Munich).
 
 ---
@@ -14,7 +14,7 @@ no conda, no pixi on your own machine.
 2. **Clone this repo** into your home directory:
    ```bash
    git clone https://github.com/scverse/2026_09_workshop_physalia.git
-   cd 202609_workshop_physalia
+   cd 2026_09_workshop_physalia
    ```
 3. **Open `notebooks/00_setup_check.ipynb`.**
 4. **Pick the kernel.** Top right, choose **"Physalia spatial omics"**.
@@ -99,6 +99,6 @@ participant accounts being recreated.
 
 | Day | Sessions |
 |---|---|
-| 1 | Introduction to SpatialData · Quality control and segmentation (SOPA) · SpatialData + Squidpy |
-| 2 | Spatial structure: clustering and niches · Cell–cell communication · Gene-level spatial analysis |
-| 3 | Why AI in spatial omics · AI in practice: morphology and resolVI · Synthesis |
+| 1 (Tue 15th) | Introduction to SpatialData · Quality control and segmentation (SOPA) · SpatialData + Squidpy — [`notebooks/day_1/`](notebooks/day_1/) |
+| 2 (Wed 16th) | Spatial structure: clustering and niches · Cell–cell communication · Gene-level spatial analysis |
+| 3 (Thu 17th) | Why AI in spatial omics · AI in practice: morphology and resolVI · Synthesis |
