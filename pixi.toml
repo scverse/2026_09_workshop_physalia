@@ -113,6 +113,14 @@ liana = ">=1.10"
 # ------------------ S6.2 alignment-based imputation, the contrast to gimVI
 tangram-sc = "*"
 
+# ---------------- S8.1 morphology + expression: multi-view factor analysis
+# mofaflex is the PyTorch successor of MOFA+ and reads MuData directly. It defaults to
+# device="cuda"; the notebooks pass device="cpu" because the teaching server has no GPU.
+# muon + mofapy2 are the classic MOFA+ route, kept as the fallback.
+mofaflex = ">=0.1.2, <0.2"
+muon = ">=0.1.9, <0.2"
+mofapy2 = ">=0.7.5, <0.8"
+
 # Instructor-only. napari is a desktop GUI and cannot render over VS Code
 # Remote-SSH, so it stays out of what participants get.
 #   pixi install -e local
