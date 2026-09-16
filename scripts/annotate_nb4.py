@@ -145,10 +145,11 @@ def main():
     print(f"backup -> {backup}")
 
     nb = json.load(open(NB))
-    if not patch(nb):
-        return
-    json.dump(nb, open(NB, "w"), indent=1)
-    print(f"patched -> {len(nb['cells'])} cells")
+    if patch(nb):
+        json.dump(nb, open(NB, "w"), indent=1)
+        print(f"patched -> {len(nb['cells'])} cells")
+    else:
+        print("already patched - executing anyway to regenerate outputs")
 
     import nbformat
     from nbclient import NotebookClient
