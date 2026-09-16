@@ -8,3 +8,4 @@ notebooks/day_3/
 scripts/precompute_hne_embeddings.py
 scripts/prefit_mofa_visium_hne.py
 scripts/export_slide_figures.py
+.wip_session_8_1/
