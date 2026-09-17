@@ -4,7 +4,8 @@ outputs/
 __pycache__/
 *.zarr/
 data/
-notebooks/day_3/
+notebooks/day_3/nb5_morphology_expression.ipynb
+notebooks/day_3/scratch_talk_figures.ipynb
 scripts/precompute_hne_embeddings.py
 scripts/prefit_mofa_visium_hne.py
 scripts/export_slide_figures.py

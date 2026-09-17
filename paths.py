@@ -24,3 +24,20 @@ def data(*parts: str) -> Path:
             f"Run `pixi run check` to diagnose."
         )
     return p
+
+
+def precomputed(*parts: str) -> Path | None:
+    """Find a precomputed artifact (scVI latents, cell type cache, ...).
+
+    Checks the shared, read-only cache under DATA/precomputed first (staged by the
+    instructors, the same file for every participant), then your own OUT in case you
+    computed it yourself earlier. Returns None if neither has it, so the caller can
+    recompute inline.
+    """
+    shared = DATA / "precomputed" / Path(*parts)
+    if shared.exists():
+        return shared
+    own = OUT.joinpath(*parts)
+    if own.exists():
+        return own
+    return None
